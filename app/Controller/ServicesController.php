@@ -47,6 +47,9 @@ class ServicesController extends AppController {
 				$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
 			}
 		}
+		$serviceTypes = $this->Service->ServiceType->find('list');
+		$branches = $this->Service->Branch->find('list');
+		$this->set(compact('serviceTypes', 'branches'));
 	}
 
 /**
@@ -70,6 +73,9 @@ class ServicesController extends AppController {
 		} else {
 			$this->request->data = $this->Service->read(null, $id);
 		}
+		$serviceTypes = $this->Service->ServiceType->find('list');
+		$branches = $this->Service->Branch->find('list');
+		$this->set(compact('serviceTypes', 'branches'));
 	}
 
 /**

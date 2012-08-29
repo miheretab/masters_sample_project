@@ -4,6 +4,7 @@ App::uses('AppModel', 'Model');
  * Branch Model
  *
  * @property User $User
+ * @property Service $Service
  */
 class Branch extends AppModel {
 /**
@@ -72,4 +73,28 @@ class Branch extends AppModel {
 			'order' => ''
 		)
 	);
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+	public $hasAndBelongsToMany = array(
+		'Service' => array(
+			'className' => 'Service',
+			'joinTable' => 'branch_service',
+			'foreignKey' => 'branch_id',
+			'associationForeignKey' => 'service_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
+		)
+	);
+
 }

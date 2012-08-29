@@ -1,24 +1,14 @@
-<div class="branches view">
-<h2><?php  echo __('Branch');?></h2>
+<div class="serviceTypes view">
+<h2><?php  echo __('Service Type');?></h2>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
-			<?php echo h($branch['Branch']['id']); ?>
+			<?php echo h($serviceType['ServiceType']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Name'); ?></dt>
+		<dt><?php echo __('Type'); ?></dt>
 		<dd>
-			<?php echo h($branch['Branch']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Address'); ?></dt>
-		<dd>
-			<?php echo h($branch['Branch']['address']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('User'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($branch['User']['name'], array('controller' => 'users', 'action' => 'view', $branch['User']['id'])); ?>
+			<?php echo h($serviceType['ServiceType']['type']); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -26,19 +16,17 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Branch'), array('action' => 'edit', $branch['Branch']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Branch'), array('action' => 'delete', $branch['Branch']['id']), null, __('Are you sure you want to delete # %s?', $branch['Branch']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Branches'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Branch'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Service Type'), array('action' => 'edit', $serviceType['ServiceType']['id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Delete Service Type'), array('action' => 'delete', $serviceType['ServiceType']['id']), null, __('Are you sure you want to delete # %s?', $serviceType['ServiceType']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('List Service Types'), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Service Type'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Services'), array('controller' => 'services', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Service'), array('controller' => 'services', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
 	<h3><?php echo __('Related Services');?></h3>
-	<?php if (!empty($branch['Service'])):?>
+	<?php if (!empty($serviceType['Service'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php echo __('Id'); ?></th>
@@ -51,7 +39,7 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($branch['Service'] as $service): ?>
+		foreach ($serviceType['Service'] as $service): ?>
 		<tr>
 			<td><?php echo $service['id'];?></td>
 			<td><?php echo $service['name'];?></td>

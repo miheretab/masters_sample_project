@@ -5,7 +5,7 @@
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('description');?></th>
-			<th><?php echo $this->Paginator->sort('isFood');?></th>
+			<th><?php echo $this->Paginator->sort('service_type_id');?></th>
 			<th><?php echo $this->Paginator->sort('isSpecial');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
@@ -16,7 +16,9 @@
 		<td><?php echo h($service['Service']['id']); ?>&nbsp;</td>
 		<td><?php echo h($service['Service']['name']); ?>&nbsp;</td>
 		<td><?php echo h($service['Service']['description']); ?>&nbsp;</td>
-		<td><?php echo h($service['Service']['isFood']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($service['ServiceType']['type'], array('controller' => 'service_types', 'action' => 'view', $service['ServiceType']['id'])); ?>
+		</td>
 		<td><?php echo h($service['Service']['isSpecial']); ?>&nbsp;</td>
 		<td><?php echo h($service['Service']['created']); ?>&nbsp;</td>
 		<td class="actions">
@@ -46,5 +48,9 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Service'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('List Service Types'), array('controller' => 'service_types', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Service Type'), array('controller' => 'service_types', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Branches'), array('controller' => 'branches', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Branch'), array('controller' => 'branches', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

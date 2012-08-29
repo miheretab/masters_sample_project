@@ -48,7 +48,8 @@ class BranchesController extends AppController {
 			}
 		}
 		$users = $this->Branch->User->find('list');
-		$this->set(compact('users'));
+		$services = $this->Branch->Service->find('list');
+		$this->set(compact('users', 'services'));
 	}
 
 /**
@@ -73,7 +74,8 @@ class BranchesController extends AppController {
 			$this->request->data = $this->Branch->read(null, $id);
 		}
 		$users = $this->Branch->User->find('list');
-		$this->set(compact('users'));
+		$services = $this->Branch->Service->find('list');
+		$this->set(compact('users', 'services'));
 	}
 
 /**
