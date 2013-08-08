@@ -109,7 +109,9 @@ p {
 	padding: 6px 10px;
 	text-align: right;
 }
-
+#footer a {
+	color: #fff;
+}
 /** containers **/
 div.form,
 div.index,
@@ -737,3 +739,98 @@ pre {
 #url-rewriting-warning {
 	display:none;
 }
+
+/** Menu **/
+.menu li {
+	list-style: none;
+	border: 1px solid #360;
+	border-bottom: none;
+	float: left;
+	margin-top: 23px;
+	margin-left:0;
+	margin-right: 3px;
+	padding-bottom: 5px;
+	padding-top: 5px;	
+	-moz-border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0; /* future proofing */
+	-khtml-border-radius: 10px 10px 0 0; /* for old Konqueror browsers */
+}
+.menu li a {		
+	color: #FFF;
+	text-decoration: none;
+	padding: 5px;
+}
+.menu li a:hover{
+	text-decoration: none;
+	background: #FFF;
+	color: #003d4c;
+	-moz-border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0; /* future proofing */
+	-khtml-border-radius: 10px 10px 0 0; /* for old Konqueror browsers */
+}
+.menu li a.selected{
+	text-decoration: none;
+	background: #FFF;
+	color: #003d4c;
+	-moz-border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0; /* future proofing */
+	-khtml-border-radius: 10px 10px 0 0; /* for old Konqueror browsers */
+}
+
+/** Right Side Bar**/
+
+#right_header {
+	border: 1px solid #360;
+	position: absolute;
+	top: 0;
+ 	right: 0;
+	width: 630px;
+	clear: both;
+	padding: 10px;	
+	padding-bottom: 0;
+	text-align:right;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px; /* future proofing */
+	-khtml-border-radius: 10px; /* for old Konqueror browsers */	
+}
+
+#right_header form div {
+	display: inline;	
+}
+
+#right_header form .input {
+	display: inline;	
+}
+
+#right_header input[type=text], #right_header input[type=password] {
+	width: 150px;
+	height: 10px;
+}
+
+#right_header label, #right_header a {
+	display: inline;
+	color: #FFF;
+}
+/* Google map */
+#map {
+	height: 300px;
+	margin-bottom:25px;
+	width: 100%;
+	border-bottom:1px solid #CCC;
+	border-top:1px solid #CCC;
+}
+.ac_results  {
+     position         :absolute;
+     width            :250px;
+     background-color :white;
+     border           :1px solid #888;
+     margin           :0px;
+     padding          :0px;
+	 color: 	black;
+} 
+.ac_results ul li    { list-style: none; }
+.ac_results ul li.ac_over    { background-color: #ffb; }

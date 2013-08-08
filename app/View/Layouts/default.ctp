@@ -17,6 +17,28 @@
  */
 
 $cakeDescription = 'Tour Guide Support Application';
+$loggedIn = $this->Session->check('Auth.User');
+$administrator = $this->Session->read('Auth.User.group_id') == 1;
+$selected = "selected";
+$homeClass = "";
+$serviceTypesClass = "";
+$servicesClass = "";
+$branchesClass = "";
+$commentsClass = "";
+$usersClass = "";
+
+if($title_for_layout == "Home")
+	$homeClass = $selected;
+else if($title_for_layout == "ServiceTypes")
+	$serviceTypesClass = $selected;
+else if($title_for_layout == "Services")
+	$servicesClass = $selected;	
+else if($title_for_layout == "Branches")
+	$branchesClass = $selected;
+else if($title_for_layout == "Comments")
+	$commentsClass = $selected;	
+else if($title_for_layout == "Users")
+	$usersClass = $selected;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,6 +52,15 @@ $cakeDescription = 'Tour Guide Support Application';
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
+		
+		echo $this->Html->script('jquery.min');
+		echo $this->Html->script('respond.min');
+		echo $this->Html->script('jquery.adipoli.min');
+		echo $this->Html->script('jquery.fancybox-1.3.4.pack');
+		echo $this->Html->script('jquery.isotope.min');
+		echo $this->Html->script('http://maps.google.com/maps/api/js?sensor=false');
+		echo $this->Html->script('jquery.gmap.min');
+		echo $this->Html->script('jquery.autocomplete.min');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -39,7 +70,33 @@ $cakeDescription = 'Tour Guide Support Application';
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
+		<ul class="menu">
+			<li>
+				<?php echo $this->Html->link("Home", '/', array('class'=>$homeClass)); ?>
+			</li>			
+		<?php //if the user login
+		if($loggedIn) {
+		?>
+			<li><?php echo $this->Html->link('Branches', array('controller' => 'Branches', 'action' => 'index'), array('class'=>$branchesClass)); ?></li>
+			<li><?php echo $this->Html->link('Services', array('controller' => 'Services', 'action' => 'index'), array('class'=>$servicesClass)); ?></li>
+			<li><?php echo $this->Html->link('Comments', array('controller' => 'Comments', 'action' => 'index'), array('class'=>$commentsClass)); ?></li>
+			<?php if($administrator) { ?>
+				<li><?php echo $this->Html->link('ServiceTypes', array('controller' => 'ServiceTypes', 'action' => 'index'), array('class'=>$serviceTypesClass)); ?></li>
+				<li><?php echo $this->Html->link('Users', array('controller' => 'Users', 'action' => 'index'), array('class'=>$usersClass)); ?></li>
+		<?php }} ?>
+		</ul>
+		<div id="right_header">
+		<?php //if the user doesn't not login
+		if(!$loggedIn) {?>
+			<?php echo $this->Html->link('Login', array('controller' => 'Users', 'action' => 'login'))
+			 . " | " . $this->Html->link(__('Register'), array('controller' => 'Users', 'action' => 'signup')); ?>
+		<?php }
+		else { 
+			echo "Welcome " 
+			. $this->Html->link($this->Session->read('Auth.User.name'), array('controller' => 'Users', 'action' => 'edit'), array('title' => 'Profile'))
+			. " | " . $this->Html->link('Logout', array('controller' => 'Users', 'action' => 'logout')); 
+		} ?>
+		</div>		
 		</div>
 		<div id="content">
 
@@ -48,14 +105,13 @@ $cakeDescription = 'Tour Guide Support Application';
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
+			<?php echo $this->Html->link("copyright&copy;2012",
 					'/',
 					array('target' => '_blank', 'escape' => false)
 				);
 			?>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

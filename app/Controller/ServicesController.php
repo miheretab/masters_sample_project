@@ -7,7 +7,10 @@ App::uses('AppController', 'Controller');
  */
 class ServicesController extends AppController {
 
-
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('menu');
+    }
 /**
  * index method
  *
@@ -15,6 +18,7 @@ class ServicesController extends AppController {
  */
 	public function index() {
 		$this->Service->recursive = 0;
+		$this->paginate = array('conditions' => array('user_id' => $this->Auth->user('id')));		
 		$this->set('services', $this->paginate());
 	}
 
@@ -29,7 +33,10 @@ class ServicesController extends AppController {
 		if (!$this->Service->exists()) {
 			throw new NotFoundException(__('Invalid service'));
 		}
-		$this->set('service', $this->Service->read(null, $id));
+		$service = $this->Service->read(null, $id);
+		if($service['Service']['user_id'] != $this->Auth->user('id'))
+			throw new NotFoundException(__('Invalid service'));		
+		$this->set('service', $service);
 	}
 
 /**
@@ -39,6 +46,7 @@ class ServicesController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			$this->request->data['Service']['user_id'] = $this->Auth->user('id');
 			$this->Service->create();
 			if ($this->Service->save($this->request->data)) {
 				$this->Session->setFlash(__('The service has been saved'));
@@ -48,8 +56,7 @@ class ServicesController extends AppController {
 			}
 		}
 		$serviceTypes = $this->Service->ServiceType->find('list');
-		$branches = $this->Service->Branch->find('list');
-		$this->set(compact('serviceTypes', 'branches'));
+		$this->set(compact('serviceTypes'));
 	}
 
 /**
@@ -71,11 +78,14 @@ class ServicesController extends AppController {
 				$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Service->read(null, $id);
+			$this->request->data = 
+			$service = $this->Service->read(null, $id);
+			if($service['Service']['user_id'] != $this->Auth->user('id'))
+				throw new NotFoundException(__('Invalid service'));
+			$this->request->data = $service;			
 		}
 		$serviceTypes = $this->Service->ServiceType->find('list');
-		$branches = $this->Service->Branch->find('list');
-		$this->set(compact('serviceTypes', 'branches'));
+		$this->set(compact('serviceTypes'));
 	}
 
 /**
@@ -99,4 +109,18 @@ class ServicesController extends AppController {
 		$this->Session->setFlash(__('Service was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * menu method
+ *
+ * @return void
+ */
+	public function menu($id = null) {
+		$this->Service->recursive = 2;
+		$this->paginate = array('conditions' => array('service_type_id' => 1));		
+		$this->set('services', $this->paginate());
+		$this->set('branchId', $id);
+	}
+	
+
 }

@@ -73,6 +73,53 @@ class Branch extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Place' => array(
+			'className' => 'Place',
+			'foreignKey' => 'name',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Rating' => array(
+			'className' => 'Rating',
+			'foreignKey' => 'branch_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Statue' => array(
+			'className' => 'Statue',
+			'foreignKey' => 'name',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),		
+	);
 
 /**
  * hasAndBelongsToMany associations

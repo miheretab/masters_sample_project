@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Folder', 'Utility');
 /**
  * Users Controller
  *
@@ -9,7 +10,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('add', 'login', 'logout', 'initDB');
+		$this->Auth->allow('signup', 'login', 'logout', 'initDB');
     }
 	
 	public function initDB() {
@@ -23,6 +24,8 @@ class UsersController extends AppController {
 		$this->Acl->allow($group, 'controllers');
 		$this->Acl->deny($group, 'controllers/Users/index');
 		$this->Acl->deny($group, 'controllers/Users/delete');
+		$this->Acl->deny($group, 'controllers/ServiceTypes');
+		$this->Acl->deny($group, 'controllers/Comments/delete');
 
 		//we add an exit to avoid an ugly "missing views" error message
 		echo "all done";
@@ -34,6 +37,10 @@ class UsersController extends AppController {
  * @return void
  */	
 	public function login() {
+		/*if($this->Auth->user('id') != null) {
+			$this->redirect($this->referer());
+		}*/
+		
 		if ($this->request->is('post')) {			
 			if($this->Auth->login()) {
 				$this->redirect($this->Auth->redirect());
@@ -76,37 +83,49 @@ class UsersController extends AppController {
 	}
 
 /**
- * add method
+ * signup method
  *
  * @return void
  */
-	public function add() {
+	public function signup() {
 		if ($this->request->is('post')) {
+			if(is_uploaded_file($this->request->data['User']['pic']['tmp_name'])) {
+				new Folder('img', true, 0777);
+				$filename = $this->request->data['User']['pic']['name'];
+				move_uploaded_file($this->request->data['User']['pic']['tmp_name'], 'img' . DS. $filename);								
+				$this->request->data['User']['photo'] = $filename;
+			}		
 			$this->User->create();
+			$this->request->data['User']['group_id'] = 2;
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
+				$this->Session->setFlash(__('You have been registered'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('You could not register. Please, try again.'));
 			}
 		}
-		$groups = $this->User->Group->find('list');
-		$this->set(compact('groups'));
 	}
 
 /**
  * edit method
  *
- * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function edit() {
+		$id = $this->Auth->user('id');
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+		
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->User->save($this->request->data)) {
+			if(is_uploaded_file($this->request->data['User']['pic']['tmp_name'])) {
+				new Folder('img' , true, 0777);
+				$filename = $this->request->data['User']['pic']['name'];
+				move_uploaded_file($this->request->data['User']['pic']['tmp_name'], 'img' .DS. $filename);								
+				$this->request->data['User']['photo'] = $filename;
+			}		
+			if ($this->User->save($this->request->data, false)) {
 				$this->Session->setFlash(__('The user has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -114,6 +133,7 @@ class UsersController extends AppController {
 			}
 		} else {
 			$this->request->data = $this->User->read(null, $id);
+			$this->set('user', $this->request->data['User']);
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));

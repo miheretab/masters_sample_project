@@ -48,6 +48,6 @@ class AppController extends Controller {
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display');
-        $this->Auth->loginRedirect = array('controller' => 'branches', 'action' => 'index');		
+        $this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'home');		
     }
 }

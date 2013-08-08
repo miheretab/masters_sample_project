@@ -1,19 +1,3 @@
-<script type="text/javascript">
-	/* ---------------------------------------------------------------------- */
-	/*	Google Maps
-	/* ---------------------------------------------------------------------- */
-	$(document).ready(function() {		
-		$address = '<?php echo $branch["Branch"]["specific_place"]." , ".$branch["Branch"]["city"].", Ethiopia";?>';
-		 $('#map').gMap({
-			address: $address,
-			zoom: 16,
-			markers: [
-				{ 'address' : $address }
-			]
-		});
-  	});
-	
-</script>
 <div class="branches view">
 <h2><?php  echo __('Branch');?></h2>
 	<dl>
@@ -34,7 +18,6 @@
 		</dd>
 	</dl>
 </div>
-<div id="map"></div>
 <div class="related">
 	<h3><?php echo __('Related Services');?></h3>
 	<?php $hasFoodService = false; if (!empty($branch['Service'])):?>
@@ -42,8 +25,7 @@
 	<tr>
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Name'); ?></th>
-		<th><?php echo __('Service Type Id'); ?></th>
-		<th class="actions"><?php echo __('Actions');?></th>
+		<th><?php echo __('Service Type'); ?></th>
 	</tr>
 	<?php
 		$i = 0;
@@ -52,11 +34,6 @@
 			<td><?php echo $service['id'];?></td>
 			<td><?php echo $service['name'];?></td>
 			<td><?php echo $service['ServiceType']['type'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'services', 'action' => 'view', $service['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'services', 'action' => 'edit', $service['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'services', 'action' => 'delete', $service['id']), null, __('Are you sure you want to delete # %s?', $service['id'])); ?>
-			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>

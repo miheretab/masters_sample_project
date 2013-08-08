@@ -170,6 +170,8 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	public $actsAs = array('Upload.Upload' => array('photo'));
 
 	function unique($check, $limit) {
 		$existing_promo_count = $this->find('count', array('conditions' => $check, 'recursive' => -1));

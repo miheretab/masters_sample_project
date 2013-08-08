@@ -4,8 +4,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
-			<th><?php echo $this->Paginator->sort('address');?></th>
-			<th><?php echo $this->Paginator->sort('user_id');?></th>
+			<th><?php echo 'Address';?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -13,10 +12,7 @@
 	<tr>
 		<td><?php echo h($branch['Branch']['id']); ?>&nbsp;</td>
 		<td><?php echo h($branch['Branch']['name']); ?>&nbsp;</td>
-		<td><?php echo h($branch['Branch']['address']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($branch['User']['name'], array('controller' => 'users', 'action' => 'view', $branch['User']['id'])); ?>
-		</td>
+		<td><?php echo h($branch['Branch']['specific_place'].', '.$branch['Branch']['city'].', Ethiopia'); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $branch['Branch']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $branch['Branch']['id'])); ?>
@@ -43,10 +39,6 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Branch'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Services'), array('controller' => 'services', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Service'), array('controller' => 'services', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Branch'), array('action' => 'add')); ?></li>		
 	</ul>
 </div>
