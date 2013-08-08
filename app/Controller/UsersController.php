@@ -8,9 +8,17 @@ App::uses('Folder', 'Utility');
  */
 class UsersController extends AppController {
 
+    public $components = array(
+        'RequestHandler',
+        'Rest.Rest' => array(
+            'catchredir' => true, // Recommended unless you implement something yourself
+            'debug' => 0,
+        ),
+    );
+
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('signup', 'login', 'logout', 'initDB');
+		$this->Auth->allow('signup', 'login', 'logout', 'initDB', 'login_r');
     }
 	
 	public function initDB() {
@@ -40,7 +48,21 @@ class UsersController extends AppController {
 		/*if($this->Auth->user('id') != null) {
 			$this->redirect($this->referer());
 		}*/
-		
+		// Try to login user via REST
+		if ($this->Rest->isActive()) {
+			$credentials = $this->Rest->credentials();
+			$this->Auth->autoRedirect = false;
+			$this->request->data = array(
+				'User' => array(
+					'username' => $credentials['username'],
+					'password' => $credentials['password'],
+				),
+			);
+			if (!$this->Auth->login()) {
+				$msg = sprintf('Unable to log you in with the supplied credentials. ');
+				return $this->Rest->abort(array('status' => '403', 'error' => $msg));
+			}
+		}
 		if ($this->request->is('post')) {			
 			if($this->Auth->login()) {
 				$this->redirect($this->Auth->redirect());
@@ -49,7 +71,24 @@ class UsersController extends AppController {
 			}
 		}
 	}
-	
+
+	//test login with rest
+	public function login_r()	{
+		if ($this->request->is('post')) {
+			$uri = 'http://localhost/dev.tourguide.com/Users/login.xml';
+			$ch = curl_init($uri);
+			curl_setopt_array($ch, array(
+				CURLOPT_HTTPHEADER  => array('Authorization: TRUEREST username='. $this->request->data['User']['username'] . '&password='. $this->request->data['User']['password'] . '&apikey=247b5a2f72df375279573f2746686daa'),
+				CURLOPT_RETURNTRANSFER  => true,
+				CURLOPT_VERBOSE     => 1
+			));
+			$out = curl_exec($ch);
+			curl_close($ch);
+			// echo response output
+			echo $out;
+		}
+	}
+
 /**
  * Log out
  *
